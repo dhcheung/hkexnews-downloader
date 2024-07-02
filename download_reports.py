@@ -1,4 +1,5 @@
-import jq
+# import jq
+import json
 import os
 import requests
 
@@ -158,7 +159,9 @@ def get_stock_info(stock_code):
     x = requests.get(prefix_url)
     
     # callback({"more":"0","stockInfo":[{"stockId":1,"code":"00001","name":"CKH HOLDINGS"}, ...]});
-    return jq.compile('.stockInfo[]').input_text(x.text[9:-4]).first()
+    # return jq.compile('.stockInfo[]').input_text(x.text[9:-4]).first()
+    response_json = json.loads(x.text[9:-4])
+    return response_json["stockInfo"][0]
 
 
 def download_reports(stock_info, report_type, stock_output_path):
