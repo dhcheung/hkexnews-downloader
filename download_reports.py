@@ -12,7 +12,7 @@ URL_BASE = "https://www1.hkexnews.hk"
 SEARCH_PATH = "/search/titlesearch.xhtml?lang=en"
 PREFIX_PATH = "/search/partial.do?"
 VERB = "POST"
-OUTPUT_FOLDER_PATH = "out"
+OUTPUT_FOLDER_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "out")
 
 # FROM_DATE = "20070625"    # Download all historical reports
 FROM_DATE = (datetime.today() + timedelta(days=-365)).strftime("%Y%m%d")    # Only download latest reports from the last year
@@ -132,6 +132,20 @@ REPORT_TYPE_ARGUMENTS = {
         "to":TO_DATE, 
         "MB-Daterange":0, 
         "title": ''
+    },
+    "Announcements and Notices": {
+        "lang":"EN", 
+        "category":0, 
+        "market":"SEHK", 
+        "searchType":1, 
+        "documentType":-1, 
+        "t1code":10000, 
+        "t2Gcode":-2, 
+        "t2code":-2,  
+        "from":FROM_DATE, 
+        "to":TO_DATE, 
+        "MB-Daterange":0, 
+        "title": ''
     }
 }
 
@@ -180,6 +194,7 @@ def download_reports(stock_info, report_type, stock_output_path):
 
     for report_path in report_links:
         download_single_report_link(report_path, report_output_path)
+        return
 
 
 def download_single_report_link(report_path, output_path):
